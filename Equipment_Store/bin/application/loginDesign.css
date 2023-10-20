@@ -1,0 +1,61 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property 
+ * LOGIN DESIGN 
+ * */
+ .left-form{
+ 	-fx-background-color: linear-gradient(to bottom right, #38a2d7, #561139);
+ 	-fx-border-color:#000 ;
+ 	-fx-border-width:.4px 0px .4px .4px;/*top righr bottom left */
+ 		
+ }
+ .right-form{
+ 	-fx-background-color: #fff;
+ 	-fx-border-color:#000 ;
+ 	-fx-border-width:.4px 0px .4px .4px;/*top righr bottom left */
+ 		
+ }
+ .textfield{
+ 	-fx-background-color: linear-gradient(to bottom,#efefef,#eee);
+ 	-fx-background-radius:8px;
+ 	-fx-border-radius:8px;
+ 	-fx-border-color:#000 ;
+ 	-fx-border-width:0px 0px .8px 0px;
+ 	-fx-font-family: "Tahoma";
+ 	-fx-font-size:13px; 
+ }
+ .textfield:focused{
+ 	-fx-background-color: #efefef;
+ 	-fx-border-radius:8px;
+ 	-fx-border-width:0px 0px 1.8px 0px;
+ }
+ 	
+ .login-btn{
+ 	-fx-background-color: linear-gradient(to bottom,#2365a7,#213c57);
+ 	-fx-background-radius:8px;
+ 	-fx-cursor:hand;
+ 	-fx-text-fill:#fff;
+ 	-fx-font-family:"Arial";
+ 	-fx-font-size:13px;
+ }
+ .login-btn:hover{
+ 	-fx-background-color: linear-gradient(to bottom,#3d85cc,#8fc8eb);
+ }
+ 
+ .close{
+ 	-fx-background-color: transparent;
+ 	-fx-cursor:hand;
+ }
+ 
+ .close:hover{
+ 	-fx-background-color:#dd2d4f;
+ }
+ .hyperlink{
+ 	-fx-border-color: transparent;
+ 	-fx-font-size: 13px;
+ 	-fx-font-family:"Tahoma";
+ 	-fx-text-fill:#369eda; 	
+ }
+ 
+ .hyperlink:hover{
+ 	-fx-text-fill:#000;
+ }
+ 
