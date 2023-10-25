@@ -19,8 +19,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.dashboardController">
@@ -55,15 +55,20 @@
                      <children>
                         <AnchorPane layoutX="-40.0" layoutY="52.0" prefHeight="574.0" prefWidth="200.0" styleClass="nav-form" stylesheets="@dashboardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="72.0" layoutY="110.0" size="6em" />
-                              <Label alignment="CENTER" layoutX="86.0" layoutY="133.0" prefHeight="17.0" prefWidth="181.0" text="XIN CHÀO!" AnchorPane.leftAnchor="3.0" />
-                              <Label fx:id="username" alignment="CENTER" layoutX="10.0" layoutY="160.0" prefHeight="17.0" prefWidth="171.0" text="ADMIN" />
-                              <Line endX="86.5" layoutX="107.0" layoutY="205.0" startX="-100.0" />
-                              <Button fx:id="trangchu_btn" layoutX="10.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Trang chủ" />
-                              <Button fx:id="sanpham_btn" layoutX="11.0" layoutY="318.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Sản phẩm" />
-                              <Button fx:id="banhang_btn" layoutX="10.0" layoutY="366.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Bán hàng" />
-                              <Button fx:id="ncc_btn" layoutX="11.0" layoutY="410.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="38.0" prefWidth="188.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Nhà cung cấp" />
-                              <Button fx:id="lichsuban_btn" layoutX="11.0" layoutY="454.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Lịch sử bán" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="63.0" layoutY="114.0" size="8em" />
+                              <Label alignment="CENTER" layoutX="16.0" layoutY="172.0" prefHeight="21.0" prefWidth="77.0" text="XIN CHÀO!" textFill="WHITE" AnchorPane.leftAnchor="16.0">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Label>
+                              <Label fx:id="username" layoutX="95.0" layoutY="172.0" onDragDetected="#displayusername" prefHeight="17.0" prefWidth="93.0" text="ADMIN" textFill="WHITE">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Label>
+                              <Button fx:id="trangchu_btn" layoutX="10.0" layoutY="256.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Trang chủ" />
+                              <Button fx:id="sanpham_btn" layoutX="11.0" layoutY="304.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Sản phẩm" />
+                              <Button fx:id="banhang_btn" layoutX="10.0" layoutY="352.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Bán hàng" />
+                              <Button fx:id="ncc_btn" layoutX="11.0" layoutY="396.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="38.0" prefWidth="177.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Nhà cung cấp" />
+                              <Button fx:id="lichsuban_btn" layoutX="11.0" layoutY="440.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="35.0" prefWidth="180.0" styleClass="nav-btn" stylesheets="@dashboardDesign.css" text="Lịch sử bán" />
                               <Label layoutX="96.0" layoutY="536.0" text="Đăng xuất" textFill="WHITE" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="37.0">
                                  <font>
                                     <Font size="15.0" />
@@ -74,6 +79,7 @@
                                     <FontAwesomeIcon glyphName="SIGN_OUT" size="2em" />
                                  </graphic>
                               </Button>
+                              <Separator layoutX="20.0" layoutY="212.0" prefHeight="22.0" prefWidth="160.0" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -179,7 +185,7 @@
                            <children>
                               <AnchorPane layoutX="28.0" layoutY="11.0" prefHeight="273.0" prefWidth="849.0" stylesheets="@dashboardDesign.css">
                                  <children>
-                                    <TableView fx:id="themsp_tableView" layoutX="18.0" layoutY="50.0" prefHeight="218.0" prefWidth="814.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="50.0">
+                                    <TableView fx:id="themsp_tableView" layoutX="18.0" layoutY="50.0" onMouseClicked="#spSelectData" prefHeight="218.0" prefWidth="814.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="50.0">
                                        <columns>
                                           <TableColumn fx:id="themsp_cot_masp" prefWidth="121.0" text="Mã Sản Phẩm" />
                                           <TableColumn fx:id="themsp_cot_tensp" prefWidth="121.0" text="Tên Sản Phẩm" />
@@ -194,7 +200,7 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <TextField layoutX="33.0" layoutY="14.0" prefHeight="25.0" prefWidth="258.0" promptText="Tìm kiếm" />
+                                    <TextField layoutX="33.0" layoutY="14.0" prefHeight="25.0" prefWidth="258.0" promptText="Tìm kiếm" styleClass="search" stylesheets="@dashboardDesign.css" />
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="39.0" layoutY="31.0" />
                                  </children>
                                  <styleClass>
@@ -209,53 +215,57 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="themsp_masp" layoutX="134.0" layoutY="20.0" prefHeight="25.0" prefWidth="128.0" />
+                                    <TextField fx:id="themsp_masp" layoutX="134.0" layoutY="20.0" prefHeight="25.0" prefWidth="128.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                     <Label layoutX="32.0" layoutY="62.0" text="Tên Sản Phẩm:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="themsp_tensp" layoutX="134.0" layoutY="59.0" prefHeight="25.0" prefWidth="168.0" />
-                                    <Label layoutX="27.0" layoutY="102.0" text="Loại Sản Phẩm:">
+                                    <TextField fx:id="themsp_tensp" layoutX="134.0" layoutY="59.0" prefHeight="25.0" prefWidth="168.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <Label layoutX="330.0" layoutY="32.0" text="Loại Sản Phẩm:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="themsp_loaisp" layoutX="134.0" layoutY="99.0" prefHeight="25.0" prefWidth="168.0" promptText="Choose Type..." />
-                                    <Label layoutX="363.0" layoutY="23.0" text="Số Lượng:">
+                                    <ComboBox fx:id="themsp_loaisp" layoutX="432.0" layoutY="26.0" prefHeight="25.0" prefWidth="168.0" promptText="Choose Type..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <Label layoutX="60.0" layoutY="93.0" text="Số Lượng:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="themsp_soluong" layoutX="432.0" layoutY="20.0" prefHeight="25.0" prefWidth="168.0" promptText="0" />
-                                    <Label layoutX="360.0" layoutY="62.0" text="Giá (VND):">
+                                    <TextField fx:id="themsp_soluong" layoutX="134.0" layoutY="92.0" prefHeight="25.0" prefWidth="168.0" promptText="0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <Label layoutX="57.0" layoutY="132.0" text="Giá (VND):">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="themsp_gia" layoutX="432.0" layoutY="60.0" prefHeight="25.0" prefWidth="168.0" />
-                                    <AnchorPane layoutX="698.0" layoutY="17.0" prefHeight="117.0" prefWidth="120.0" AnchorPane.rightAnchor="31.0">
+                                    <TextField fx:id="themsp_gia" layoutX="134.0" layoutY="132.0" prefHeight="25.0" prefWidth="168.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <AnchorPane layoutX="698.0" layoutY="17.0" prefHeight="117.0" prefWidth="120.0" stylesheets="@dashboardDesign.css" AnchorPane.rightAnchor="31.0">
                                        <children>
                                           <ImageView fx:id="themsp_imageView" fitHeight="127.0" fitWidth="120.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
+                                       <styleClass>
+                                          <String fx:value="shadow" />
+                                          <String fx:value="white-bg" />
+                                       </styleClass>
                                     </AnchorPane>
-                                    <Button fx:id="themsp_tailenbtn" layoutX="711.0" layoutY="148.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="99.0" text="Tải Lên" AnchorPane.rightAnchor="39.0" />
-                                    <Button fx:id="themsp_thembtn" layoutX="127.0" layoutY="196.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="112.0" text="Thêm" AnchorPane.bottomAnchor="10.0" />
-                                    <Button fx:id="themsp_suabtn" layoutX="260.0" layoutY="196.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="112.0" text="Sửa" AnchorPane.bottomAnchor="10.0" />
-                                    <Button fx:id="themsp_clearbtn" layoutX="400.0" layoutY="196.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="112.0" text="Clear" AnchorPane.bottomAnchor="10.0" />
-                                    <Button fx:id="themsp_xoabtn" layoutX="533.0" layoutY="196.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="112.0" text="Xóa" AnchorPane.bottomAnchor="10.0" />
-                                    <Label layoutX="28.0" layoutY="143.0" text="Nhà Cung Cấp:">
+                                    <Button fx:id="themsp_tailenbtn" layoutX="711.0" layoutY="148.0" mnemonicParsing="false" onAction="#taiAnhLenBtn" prefHeight="26.0" prefWidth="99.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Tải Lên" AnchorPane.rightAnchor="39.0" />
+                                    <Button fx:id="themsp_thembtn" layoutX="127.0" layoutY="196.0" mnemonicParsing="false" onAction="#sp_ThemSPbtn" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Thêm" AnchorPane.bottomAnchor="10.0" />
+                                    <Button fx:id="themsp_suabtn" layoutX="260.0" layoutY="196.0" mnemonicParsing="false" onAction="#sp_SuaSPbtn" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Sửa" AnchorPane.bottomAnchor="10.0" />
+                                    <Button fx:id="themsp_clearbtn" layoutX="400.0" layoutY="196.0" mnemonicParsing="false" onAction="#sp_ClearSPbtn" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Clear" AnchorPane.bottomAnchor="10.0" />
+                                    <Button fx:id="themsp_xoabtn" layoutX="533.0" layoutY="196.0" mnemonicParsing="false" onAction="#sp_XoaSPbtn" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Xóa" AnchorPane.bottomAnchor="10.0" />
+                                    <Label layoutX="331.0" layoutY="73.0" text="Nhà Cung Cấp:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <ComboBox fx:id="themsp_ncc" layoutX="134.0" layoutY="141.0" prefHeight="25.0" prefWidth="168.0" promptText="Choose Status..." />
+                                    <ComboBox fx:id="themsp_ncc" layoutX="432.0" layoutY="68.0" prefHeight="25.0" prefWidth="168.0" promptText="Choose Status..." styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                     <Label layoutX="348.0" layoutY="102.0" text="Đơn Vị Tính:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="themsp_donvi" layoutX="432.0" layoutY="99.0" prefHeight="25.0" prefWidth="168.0" />
+                                    <TextField fx:id="themsp_donvi" layoutX="432.0" layoutY="99.0" prefHeight="25.0" prefWidth="168.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                  </children>
                                  <styleClass>
                                     <String fx:value="white-bg" />
@@ -265,16 +275,19 @@
                               <Separator layoutX="28.0" layoutY="296.0" prefHeight="5.0" prefWidth="852.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="banhang_form" layoutY="12.0" prefHeight="566.0" prefWidth="899.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="banhang_form" layoutY="12.0" prefHeight="566.0" prefWidth="899.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="20.0" layoutY="15.0" prefHeight="540.0" prefWidth="512.0" stylesheets="@dashboardDesign.css">
                                  <children>
-                                    <ScrollPane layoutX="13.0" layoutY="14.0" prefHeight="538.0" prefWidth="486.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="14.0">
+                                    <ScrollPane fx:id="banhang_scrolPane" layoutX="13.0" layoutY="14.0" prefHeight="538.0" prefWidth="486.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="14.0">
                                        <content>
-                                          <GridPane prefHeight="13.0" prefWidth="77.0">
+                                          <GridPane fx:id="banhang_girdPane" prefHeight="24.0" prefWidth="100.0">
                                              <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                              </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                             </rowConstraints>
                                           </GridPane>
                                        </content>
                                     </ScrollPane>
@@ -286,11 +299,11 @@
                               </AnchorPane>
                               <AnchorPane layoutX="557.0" layoutY="14.0" prefHeight="540.0" prefWidth="320.0" stylesheets="@dashboardDesign.css">
                                  <children>
-                                    <TableView layoutX="13.0" layoutY="14.0" prefHeight="249.0" prefWidth="295.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
+                                    <TableView fx:id="banhang_tableView" layoutX="13.0" layoutY="14.0" prefHeight="249.0" prefWidth="295.0" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
                                        <columns>
-                                          <TableColumn prefWidth="115.0" text="Tên Sản Phẩm" />
-                                          <TableColumn prefWidth="79.0" text="Số Lượng" />
-                                          <TableColumn prefWidth="99.0" text="Giá (VND)" />
+                                          <TableColumn fx:id="banhang_cot_tensp" prefWidth="115.0" text="Tên Sản Phẩm" />
+                                          <TableColumn fx:id="banhang_cot_soluong" prefWidth="79.0" text="Số Lượng" />
+                                          <TableColumn fx:id="banhang_cot_gia" prefWidth="99.0" text="Giá (VND)" />
                                        </columns>
                                     </TableView>
                                     <Label layoutX="140.0" layoutY="283.0" text="Tổng Tiền:" AnchorPane.bottomAnchor="262.0" AnchorPane.rightAnchor="139.0">
@@ -298,7 +311,7 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="181.0" layoutY="283.0" prefHeight="21.0" prefWidth="127.0" text="0.0" AnchorPane.bottomAnchor="262.0" AnchorPane.rightAnchor="12.0">
+                                    <Label fx:id="banhang_tongtien" layoutX="181.0" layoutY="283.0" prefHeight="21.0" prefWidth="127.0" text="0.0" AnchorPane.bottomAnchor="262.0" AnchorPane.rightAnchor="12.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -308,20 +321,20 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="182.0" layoutY="311.0" prefHeight="25.0" prefWidth="126.0" AnchorPane.bottomAnchor="230.0" AnchorPane.rightAnchor="12.0" />
+                                    <TextField fx:id="banhang_sotien" layoutX="182.0" layoutY="311.0" prefHeight="25.0" prefWidth="126.0" styleClass="textfield" stylesheets="@dashboardDesign.css" AnchorPane.bottomAnchor="230.0" AnchorPane.rightAnchor="12.0" />
                                     <Label layoutX="121.0" layoutY="343.0" text="Tiền Thối Lại:" AnchorPane.bottomAnchor="202.0" AnchorPane.rightAnchor="144.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="181.0" layoutY="343.0" prefHeight="21.0" prefWidth="127.0" AnchorPane.bottomAnchor="202.0" AnchorPane.rightAnchor="12.0">
+                                    <Label fx:id="banhang_tienthoi" layoutX="181.0" layoutY="343.0" prefHeight="21.0" prefWidth="127.0" text="0.0" AnchorPane.bottomAnchor="202.0" AnchorPane.rightAnchor="12.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Button layoutX="15.0" layoutY="420.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="290.0" text="Thanh Toán" AnchorPane.bottomAnchor="105.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-                                    <Button layoutX="28.0" layoutY="489.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="119.0" text="Xóa" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="28.0" />
-                                    <Button layoutX="173.0" layoutY="489.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="119.0" text="Biên Lai" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="28.0" />
+                                    <Button fx:id="banhang_thanhtoanbtn" layoutX="15.0" layoutY="420.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="290.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Thanh Toán" AnchorPane.bottomAnchor="105.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+                                    <Button fx:id="banhang_xoabtn" layoutX="28.0" layoutY="489.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Xóa" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="28.0" />
+                                    <Button fx:id="banhang_bienlaibtn" layoutX="173.0" layoutY="489.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="119.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Biên Lai" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="28.0" />
                                  </children>
                                  <styleClass>
                                     <String fx:value="white-bg" />
@@ -334,18 +347,18 @@
                            <children>
                               <AnchorPane layoutX="26.0" layoutY="18.0" prefHeight="304.0" prefWidth="849.0" stylesheets="@dashboardDesign.css">
                                  <children>
-                                    <TableView layoutX="18.0" layoutY="51.0" prefHeight="221.0" prefWidth="814.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="51.0">
+                                    <TableView fx:id="themncc_tableView" layoutX="18.0" layoutY="51.0" onMouseClicked="#nccSelectData" prefHeight="221.0" prefWidth="814.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="51.0">
                                        <columns>
-                                          <TableColumn prefWidth="149.0" text="Mã Nhà Cung Cấp" />
-                                          <TableColumn prefWidth="149.0" text="Tên Nhà Cung Cấp" />
-                                          <TableColumn prefWidth="149.0" text="SĐT" />
-                                          <TableColumn prefWidth="149.0" text="Địa Chỉ" />
+                                          <TableColumn fx:id="themncc_cot_mancc" prefWidth="149.0" text="Mã Nhà Cung Cấp" />
+                                          <TableColumn fx:id="themncc_cot_tenncc" prefWidth="149.0" text="Tên Nhà Cung Cấp" />
+                                          <TableColumn fx:id="themncc_cot_sdt" prefWidth="149.0" text="SĐT" />
+                                          <TableColumn fx:id="themncc_cot_diachi" prefWidth="149.0" text="Địa Chỉ" />
                                        </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <TextField layoutX="18.0" layoutY="12.0" prefHeight="25.0" prefWidth="258.0" promptText="Tìm kiếm" />
+                                    <TextField layoutX="18.0" layoutY="12.0" prefHeight="25.0" prefWidth="258.0" promptText="Tìm kiếm" styleClass="search" stylesheets="@dashboardDesign.css" />
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="28.0" layoutY="27.0" />
                                  </children>
                                  <styleClass>
@@ -360,29 +373,29 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="207.0" layoutY="28.0" prefHeight="25.0" prefWidth="128.0" />
+                                    <TextField fx:id="themncc_mancc" layoutX="207.0" layoutY="28.0" prefHeight="25.0" prefWidth="128.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                     <Label layoutX="72.0" layoutY="78.0" text="Tên Nhà Cung Cấp:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="208.0" layoutY="75.0" prefHeight="25.0" prefWidth="168.0" />
+                                    <TextField fx:id="themncc_tenncc" layoutX="208.0" layoutY="75.0" prefHeight="25.0" prefWidth="168.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                     <Label layoutX="507.0" layoutY="31.0" text="SĐT:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="551.0" layoutY="28.0" prefHeight="25.0" prefWidth="168.0" />
+                                    <TextField fx:id="themncc_sdt" layoutX="551.0" layoutY="28.0" prefHeight="25.0" prefWidth="168.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
                                     <Label layoutX="492.0" layoutY="78.0" text="Địa Chỉ:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="552.0" layoutY="76.0" prefHeight="25.0" prefWidth="168.0" />
-                                    <Button layoutX="183.0" layoutY="133.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="112.0" text="Add" AnchorPane.bottomAnchor="21.0" />
-                                    <Button layoutX="316.0" layoutY="133.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="112.0" text="Update" AnchorPane.bottomAnchor="21.0" />
-                                    <Button layoutX="473.0" layoutY="133.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="112.0" text="Clear" AnchorPane.bottomAnchor="21.0" />
-                                    <Button layoutX="606.0" layoutY="133.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="112.0" text="Delete" AnchorPane.bottomAnchor="21.0" />
+                                    <TextField fx:id="themncc_diachi" layoutX="552.0" layoutY="76.0" prefHeight="25.0" prefWidth="168.0" styleClass="textfield" stylesheets="@dashboardDesign.css" />
+                                    <Button fx:id="themncc_thembtn" layoutX="183.0" layoutY="133.0" mnemonicParsing="false" onAction="#nccthemncc" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Thêm" AnchorPane.bottomAnchor="21.0" />
+                                    <Button fx:id="themncc_suabtn" layoutX="316.0" layoutY="133.0" mnemonicParsing="false" onAction="#nccCapNhatncc" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Sửa" AnchorPane.bottomAnchor="21.0" />
+                                    <Button fx:id="themncc_clearbtn" layoutX="473.0" layoutY="133.0" mnemonicParsing="false" onAction="#nccCLEARncc" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Clear" AnchorPane.bottomAnchor="21.0" />
+                                    <Button fx:id="themncc_xoabtn" layoutX="606.0" layoutY="133.0" mnemonicParsing="false" onAction="#nccXoancc" prefHeight="41.0" prefWidth="112.0" styleClass="btn" stylesheets="@dashboardDesign.css" text="Xóa" AnchorPane.bottomAnchor="21.0" />
                                  </children>
                                  <styleClass>
                                     <String fx:value="white-bg" />
@@ -392,11 +405,11 @@
                               <Separator layoutX="24.0" layoutY="336.0" prefHeight="5.0" prefWidth="852.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="lichsuban_form" prefHeight="570.0" prefWidth="899.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="lichsuban_form" prefHeight="570.0" prefWidth="899.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="28.0" layoutY="29.0" prefHeight="516.0" prefWidth="835.0" stylesheets="@dashboardDesign.css">
                                  <children>
-                                    <TextField layoutX="57.0" layoutY="28.0" />
+                                    <TextField layoutX="57.0" layoutY="28.0" prefHeight="28.0" prefWidth="182.0" promptText="Tìm kiếm" styleClass="search" stylesheets="@dashboardDesign.css" />
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="69.0" layoutY="45.0" />
                                     <TableView layoutX="43.0" layoutY="111.0" prefHeight="385.0" prefWidth="758.0">
                                       <columns>

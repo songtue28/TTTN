@@ -66,7 +66,7 @@ public class loginController implements Initializable {
 
 			if (username.getText().isEmpty() || password.getText().isEmpty()) {
 				alert = new Alert(AlertType.ERROR);
-				alert.setTitle("error message");
+				alert.setTitle("Thông báo lỗi");
 				alert.setHeaderText(null);
 				alert.setContentText("Vui lòng nhập đầy đủ thông tin");
 
