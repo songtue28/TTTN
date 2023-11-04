@@ -1,6 +1,7 @@
 package application;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -286,7 +287,26 @@ public class dashboardController implements Initializable {
 	private Statement statement;
 	private PreparedStatement prepared;
 	private ResultSet result;
+	
+	
+	
+	public void changePass() throws IOException {
+		FXMLLoader load = new FXMLLoader();
+		load.setLocation(getClass().getResource("changepass.fxml"));
+		AnchorPane pane = load.load(); 
+		Stage stage = new Stage();
+	    Scene scene = new Scene(pane);
 
+	    // Set the scene for the stage
+	    stage.setScene(scene);
+	    stage.initStyle(StageStyle.TRANSPARENT);
+	    // Show the stage
+	    stage.show();
+	}
+	
+	
+	
+	
 	public void lichsubanTimkiemngay() {
 		FilteredList<dataLichSuBan> filter = new FilteredList<>(LichSuBAnListData, e -> true);
 		LocalDate selectedDate = lichsuban_timkiemngay.getValue();

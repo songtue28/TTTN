@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" stylesheets="@changepassDesign.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.changpassController">
+   <children>
+      <Label layoutX="139.0" layoutY="22.0" text="Đổi mật khẩu">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="33.0" layoutY="118.0" text="Mật khẩu cũ:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="163.0" text="Mật khẩu mới:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="35.0" layoutY="209.0" text="Xác nhận mật khẩu mới:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="password" layoutX="197.0" layoutY="117.0" />
+      <PasswordField fx:id="newpass" layoutX="198.0" layoutY="161.0" />
+      <PasswordField fx:id="renewpass" layoutX="198.0" layoutY="208.0" />
+      <Label layoutX="30.0" layoutY="69.0" text="Tên đăng nhập:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="username" layoutX="194.0" layoutY="67.0" onAction="#displayuser" />
+      <Button fx:id="luuBtn" layoutX="221.0" layoutY="252.0" mnemonicParsing="false" onAction="#luubtn" prefHeight="24.0" prefWidth="96.0" styleClass="luuBtn" stylesheets="@changepassDesign.css" text="Lưu" />
+      <Button fx:id="close" layoutX="350.0" layoutY="2.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="46.0" styleClass="close" stylesheets="@changepassDesign.css">
+         <graphic>
+            <FontAwesomeIcon glyphName="CLOSE" size="1.2em" />
+         </graphic>
+      </Button>
+   </children>
+   <styleClass>
+      <String fx:value="form" />
+      <String fx:value="shadow" />
+   </styleClass>
+</AnchorPane>
