@@ -101,8 +101,17 @@
                                        <children>
                                           <AnchorPane layoutX="14.0" layoutY="18.0" prefHeight="134.0" prefWidth="252.0" styleClass="card" stylesheets="@dashboardDesign.css">
                                              <children>
-                                                <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="102.0" layoutY="77.0" size="5em" />
-                                                <Button layoutX="74.0" layoutY="97.0" mnemonicParsing="false" text="thông tin cá nhân" />
+                                                <FontAwesomeIcon fill="WHITE" glyphName="CUBE" layoutX="30.0" layoutY="81.0" size="5em" />
+                                                <Label layoutX="90.0" layoutY="99.0" prefHeight="21.0" prefWidth="134.0" text="Tổng đơn hàng" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="trangchu_tongdonhang" alignment="CENTER_RIGHT" layoutX="126.0" layoutY="19.0" prefHeight="21.0" prefWidth="112.0" text="0" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
                                              </children>
                                           </AnchorPane>
                                           <AnchorPane layoutX="293.0" layoutY="17.0" prefHeight="134.0" prefWidth="252.0" styleClass="card" stylesheets="@dashboardDesign.css">

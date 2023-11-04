@@ -72,7 +72,8 @@ public class dashboardController implements Initializable {
 
 	@FXML
 	private AreaChart<?, ?> trangchu_BDThunhap;
-
+	@FXML
+	private Label trangchu_tongdonhang;
 	@FXML
 	private Label trangchu_sanphamdaban;
 
@@ -433,6 +434,26 @@ public class dashboardController implements Initializable {
 		themncc_tableView.setItems(sortList);
 	}
 
+	public void trangchuTongdonhang() {
+		String sql = "SELECT count(id) AS tong FROM hoadon";
+
+		connect = database.connectDb();
+
+		try {
+			int soluong = 0;
+			prepared = connect.prepareStatement(sql);
+			result = prepared.executeQuery();
+
+			if (result.next()) {
+				soluong = result.getInt("tong");
+			}
+			System.out.println(soluong + " da ban trong");
+			trangchu_tongdonhang.setText(String.valueOf(soluong));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void trangchuThunhapTrongngay() {
 		Date date = new Date();
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -1385,6 +1406,7 @@ public class dashboardController implements Initializable {
 			trangchuThunhapTrongngay();
 			trangchuBDThunhap();
 			trangchuBDDonhang();
+			trangchuTongdonhang();
 
 		} else if (event.getSource() == sanpham_btn) {
 			sanpham_form.setVisible(true);
@@ -1536,6 +1558,7 @@ public class dashboardController implements Initializable {
 		trangchuThunhapTrongngay();
 		trangchuBDThunhap();
 		trangchuBDDonhang();
+		trangchuTongdonhang();
 
 		displayusername();
 		defaultNav();
