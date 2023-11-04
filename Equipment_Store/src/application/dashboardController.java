@@ -55,6 +55,12 @@ public class dashboardController implements Initializable {
     private TextField sanpham_timkiem;
 	
 	@FXML
+    private TextField ncc_timkiem;
+	
+	@FXML
+    private TextField lichsuban_timkiem;
+	
+	@FXML
 	private BarChart<?, ?> trangchu_BDDonhang;
 
 	@FXML
@@ -275,7 +281,37 @@ public class dashboardController implements Initializable {
 	private PreparedStatement prepared;
 	private ResultSet result;
 	
+    public void lichsubanTimkiem() {
 
+	FilteredList<dataLichSuBan> filter = new FilteredList<>(LichSuBAnListData, e -> true);
+
+
+	lichsuban_timkiem.textProperty().addListener((Observable, oldValue, newValue) -> {
+
+            filter.setPredicate(xacdinhkytu ->{
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String searchKey = newValue.toLowerCase();
+
+                if (xacdinhkytu.getMaDon().toString().contains(searchKey)) {
+                    return true;
+                } else if (xacdinhkytu.getNguoiBan().toLowerCase().contains(searchKey)) {
+                    return true;
+                }  else {
+                    return false;
+                }
+            });
+        });
+
+        SortedList<dataLichSuBan> sortList = new SortedList<>(filter);
+
+        sortList.comparatorProperty().bind(lichsuban_tableView.comparatorProperty());
+        lichsuban_tableView.setItems(sortList);
+    }
+	
     public void sanphamTimkiem() {
 
 	FilteredList<dataSanpham> filter = new FilteredList<>(listSP, e -> true);
@@ -317,6 +353,40 @@ public class dashboardController implements Initializable {
         themsp_tableView.setItems(sortList);
     }
   
+    public void NCCTimkiem() {
+
+	FilteredList<dataNCC> filter = new FilteredList<>(listNCC, e -> true);
+
+
+        ncc_timkiem.textProperty().addListener((Observable, oldValue, newValue) -> {
+
+            filter.setPredicate(xacdinhkytu ->{
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String searchKey = newValue.toLowerCase();
+
+                if (xacdinhkytu.getMaNCC().toString().contains(searchKey)) {
+                    return true;
+                } else if (xacdinhkytu.getTenNCC().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (xacdinhkytu.getSdt().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (xacdinhkytu.getDiaChi().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+
+        SortedList<dataNCC> sortList = new SortedList<>(filter);
+
+        sortList.comparatorProperty().bind(themncc_tableView.comparatorProperty());
+        themncc_tableView.setItems(sortList);
+    }
 
 	public void trangchuThunhapTrongngay() {
 		Date date = new Date();
@@ -1321,6 +1391,8 @@ public class dashboardController implements Initializable {
 			sanpham_btn.setStyle("-fx-brackground-color: transparent");
 			banhang_btn.setStyle("-fx-brackground-color: transparent");
 			lichsuban_btn.setStyle("-fx-brackground-color: transparent");
+			
+			 NCCTimkiem();
 		} else if (event.getSource() == lichsuban_btn) {
 			lichsuban_form.setVisible(true);
 			trangchu_form.setVisible(false);
@@ -1336,6 +1408,7 @@ public class dashboardController implements Initializable {
 			
 
 			LichSuBanShowData();
+			lichsubanTimkiem();
 
 		}
 	}
