@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,6 +50,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class dashboardController implements Initializable {
+	
+	@FXML
+    private TextField sanpham_timkiem;
 	
 	@FXML
 	private BarChart<?, ?> trangchu_BDDonhang;
@@ -269,6 +274,49 @@ public class dashboardController implements Initializable {
 	private Statement statement;
 	private PreparedStatement prepared;
 	private ResultSet result;
+	
+
+    public void sanphamTimkiem() {
+
+	FilteredList<dataSanpham> filter = new FilteredList<>(listSP, e -> true);
+
+
+        sanpham_timkiem.textProperty().addListener((Observable, oldValue, newValue) -> {
+
+            filter.setPredicate(xacdinhkytu ->{
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String searchKey = newValue.toLowerCase();
+
+                if (xacdinhkytu.getMaSanPham().toString().contains(searchKey)) {
+                    return true;
+                } else if (xacdinhkytu.getTenSanPham().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (xacdinhkytu.getLoaiSanPham().toLowerCase().contains(searchKey)) {
+                    return true;
+                } else if (xacdinhkytu.getNhaCungCap().toLowerCase().contains(searchKey)) {
+                    return true;
+//                } else if (xacdinhkytu.getGia().toString().toLowerCase().contains(searchKey)) {
+//                    return true;
+//                } else if (xacdinhkytu.getDonViTinh().toString().toLowerCase().contains(searchKey)) {
+//                    return true;
+//                } else if (xacdinhkytu.getNgayNhap().toString().contains(searchKey)) {
+//                    return true;
+                } else {
+                    return false;
+                }
+            });
+        });
+
+        SortedList<dataSanpham> sortList = new SortedList<>(filter);
+
+        sortList.comparatorProperty().bind(themsp_tableView.comparatorProperty());
+        themsp_tableView.setItems(sortList);
+    }
+  
 
 	public void trangchuThunhapTrongngay() {
 		Date date = new Date();
@@ -1242,6 +1290,7 @@ public class dashboardController implements Initializable {
 			themSPListNCC();
 			dataSPShow();
 			ShowOrderData();
+			sanphamTimkiem();
 		} else if (event.getSource() == banhang_btn) {
 			banhang_form.setVisible(true);
 			trangchu_form.setVisible(false);

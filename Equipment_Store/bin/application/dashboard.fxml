@@ -180,7 +180,7 @@
                               <Separator layoutX="32.0" layoutY="189.0" prefHeight="22.0" prefWidth="841.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="24.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="sanpham_form" prefHeight="570.0" prefWidth="899.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="sanpham_form" prefHeight="570.0" prefWidth="899.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="28.0" layoutY="11.0" prefHeight="273.0" prefWidth="849.0" stylesheets="@dashboardDesign.css">
                                  <children>
@@ -199,7 +199,7 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <TextField layoutX="33.0" layoutY="14.0" prefHeight="25.0" prefWidth="258.0" promptText="Tìm kiếm" styleClass="search" stylesheets="@dashboardDesign.css" />
+                                    <TextField fx:id="sanpham_timkiem" layoutX="33.0" layoutY="14.0" onAction="#sanphamTimkiem" prefHeight="25.0" prefWidth="258.0" promptText="Tìm kiếm" styleClass="search" stylesheets="@dashboardDesign.css" />
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="39.0" layoutY="31.0" />
                                  </children>
                                  <styleClass>
@@ -339,7 +339,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="ncc_form" prefHeight="570.0" prefWidth="899.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="ncc_form" prefHeight="570.0" prefWidth="899.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="26.0" layoutY="18.0" prefHeight="304.0" prefWidth="849.0" stylesheets="@dashboardDesign.css">
                                  <children>
@@ -354,7 +354,7 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <TextField layoutX="18.0" layoutY="12.0" prefHeight="25.0" prefWidth="258.0" promptText="Tìm kiếm" styleClass="search" stylesheets="@dashboardDesign.css" />
+                                    <TextField fx:id="ncc_timkiem" layoutX="18.0" layoutY="12.0" prefHeight="25.0" prefWidth="258.0" promptText="Tìm kiếm" styleClass="search" stylesheets="@dashboardDesign.css" />
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="28.0" layoutY="27.0" />
                                  </children>
                                  <styleClass>
