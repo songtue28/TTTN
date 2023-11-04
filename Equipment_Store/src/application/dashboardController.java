@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -23,6 +23,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -45,6 +48,33 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class dashboardController implements Initializable {
+	
+	@FXML
+	private BarChart<?, ?> trangchu_BDDonhang;
+
+	@FXML
+	private AreaChart<?, ?> trangchu_BDThunhap;
+
+	@FXML
+	private Label trangchu_sanphamdaban;
+
+	@FXML
+	private Label trangchu_thunhaphomnay;
+	
+	@FXML
+	private TableColumn<dataLichSuBan, String> lichsuban_cot_madonhang;
+
+	@FXML
+	private TableColumn<dataLichSuBan, String> lichsuban_cot_ngay;
+
+	@FXML
+	private TableColumn<dataLichSuBan, String> lichsuban_cot_nguoiban;
+
+	@FXML
+	private TableColumn<dataLichSuBan, String> lichsuban_cot_tongtien;
+
+	@FXML
+	private TableView<dataLichSuBan> lichsuban_tableView;
 	@FXML
 	private Button banhang_bienlaibtn;
 
@@ -52,13 +82,13 @@ public class dashboardController implements Initializable {
 	private Button banhang_btn;
 
 	@FXML
-	private TableColumn<?, ?> banhang_cot_gia;
+	private TableColumn<dataSanpham, String> banhang_cot_gia;
 
 	@FXML
-	private TableColumn<?, ?> banhang_cot_soluong;
+	private TableColumn<dataSanpham, String> banhang_cot_soluong;
 
 	@FXML
-	private TableColumn<?, ?> banhang_cot_tensp;
+	private TableColumn<dataSanpham, String> banhang_cot_tensp;
 
 	@FXML
 	private AnchorPane banhang_form;
@@ -73,7 +103,7 @@ public class dashboardController implements Initializable {
 	private TextField banhang_sotien;
 
 	@FXML
-	private TableView<?> banhang_tableView;
+	private TableView<dataSanpham> banhang_tableView;
 
 	@FXML
 	private Button banhang_thanhtoanbtn;
@@ -240,6 +270,375 @@ public class dashboardController implements Initializable {
 	private PreparedStatement prepared;
 	private ResultSet result;
 
+	public void trangchuThunhapTrongngay() {
+		Date date = new Date();
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+		System.out.println("ngay hôm nay" + sqlDate);
+		String sql = "SELECT SUM(tongTien) AS tong FROM hoadon WHERE ngay = '" + sqlDate + "'";
+
+		connect = database.connectDb();
+
+		try {
+			double tien = 0;
+			prepared = connect.prepareStatement(sql);
+			result = prepared.executeQuery();
+
+			if (result.next()) {
+				tien = result.getDouble("tong");
+			}
+			System.out.println("query là " + tien);
+
+			trangchu_thunhaphomnay.setText(tien + " VND");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void trangchuSanphamDaban() {
+
+		String sql = "SELECT sum(soLuong) AS tong FROM chitietbanhang";
+
+		connect = database.connectDb();
+
+		try {
+			int soluong = 0;
+			prepared = connect.prepareStatement(sql);
+			result = prepared.executeQuery();
+
+			if (result.next()) {
+				soluong = result.getInt("tong");
+			}
+			System.out.println(soluong + " da ban trong");
+			trangchu_sanphamdaban.setText(String.valueOf(soluong));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void trangchuBDThunhap() {
+		trangchu_BDThunhap.getData().clear();
+
+		String sql = "SELECT ngay, SUM(tongTien) FROM hoadon GROUP BY ngay ORDER BY ngay ";
+		connect = database.connectDb();
+		XYChart.Series chart = new XYChart.Series();
+		try {
+			prepared = connect.prepareStatement(sql);
+			result = prepared.executeQuery();
+
+			while (result.next()) {
+				chart.getData().add(new XYChart.Data<>(result.getString(1), result.getFloat(2)));
+			}
+
+			trangchu_BDThunhap.getData().add(chart);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void trangchuBDDonhang() {
+		trangchu_BDDonhang.getData().clear();
+
+		String sql = "SELECT ngay, count(id) FROM hoadon GROUP BY ngay ORDER BY ngay";
+		connect = database.connectDb();
+		XYChart.Series chart = new XYChart.Series();
+		try {
+			prepared = connect.prepareStatement(sql);
+			result = prepared.executeQuery();
+
+			while (result.next()) {
+				chart.getData().add(new XYChart.Data<>(result.getString(1), result.getInt(2)));
+			}
+
+			trangchu_BDDonhang.getData().add(chart);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	public ObservableList<dataLichSuBan> LichSuBanDataList() {
+
+		ObservableList<dataLichSuBan> listData = FXCollections.observableArrayList();
+		String sql = "SELECT * FROM hoadon";
+		connect = database.connectDb();
+
+		try {
+
+			prepared = connect.prepareStatement(sql);
+			result = prepared.executeQuery();
+			dataLichSuBan cData;
+
+			while (result.next()) {
+				cData = new dataLichSuBan(result.getInt("id"), result.getInt("maDon"), result.getDouble("tongTien"),
+						result.getDate("ngay"), result.getString("nguoiBan"));
+
+				listData.add(cData);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listData;
+	}
+
+	private ObservableList<dataLichSuBan> LichSuBAnListData;
+
+	public void LichSuBanShowData() {
+		LichSuBAnListData = LichSuBanDataList();
+
+		lichsuban_cot_madonhang.setCellValueFactory(new PropertyValueFactory<>("maDon"));
+		lichsuban_cot_tongtien.setCellValueFactory(new PropertyValueFactory<>("tongTien"));
+		lichsuban_cot_ngay.setCellValueFactory(new PropertyValueFactory<>("ngay"));
+		lichsuban_cot_nguoiban.setCellValueFactory(new PropertyValueFactory<>("nguoiBan"));
+
+		lichsuban_tableView.setItems(LichSuBAnListData);
+	}
+
+	
+	private double thanhTien;
+
+	public void displayThanhtien() {
+//		customerID();
+		String tong = "SELECT sum(gia) as tinhtong from chitietbanhang ";
+
+		connect = database.connectDb();
+		try {
+			prepared = connect.prepareStatement(tong);
+			result = prepared.executeQuery();
+
+			if (result.next()) {
+				thanhTien = result.getDouble("tinhtong");
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void Thanhtien() {
+		displayThanhtien();
+		banhang_tongtien.setText(thanhTien + "$");
+	}
+
+	public ObservableList<dataSanpham> displayOrder() {
+		customerID();
+		ObservableList<dataSanpham> listdata = FXCollections.observableArrayList();
+
+		String sql = " SELECT * FROM chitietbanhang where maDon = " + cID;
+
+		connect = database.connectDb();
+		try {
+			prepared = connect.prepareStatement(sql);
+			result = prepared.executeQuery();
+			dataSanpham dataSp;
+
+			while (result.next()) {
+				dataSp = new dataSanpham(result.getInt("id"), result.getString("masanpham"),
+						result.getString("tenSanPham"), result.getInt("soLuong"), result.getDouble("gia"),
+						result.getString("image"), result.getDate("ngay"));
+				listdata.add(dataSp);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listdata;
+	}
+
+	private ObservableList<dataSanpham> orderlistData;
+
+	public void ShowOrderData() {
+		orderlistData = displayOrder();
+
+		banhang_cot_tensp.setCellValueFactory(new PropertyValueFactory<>("tenSanPham"));
+		banhang_cot_soluong.setCellValueFactory(new PropertyValueFactory<>("soLuong"));
+		banhang_cot_gia.setCellValueFactory(new PropertyValueFactory<>("gia"));
+
+		banhang_tableView.setItems(orderlistData);
+	}
+
+	private int getid;
+
+	public void banhangChonOder() {
+		dataSanpham datasp = banhang_tableView.getSelectionModel().getSelectedItem();
+		int num = banhang_tableView.getSelectionModel().getSelectedIndex();
+
+		if (num - 1 < -1) {
+			return;
+		}
+		getid = datasp.getId();
+		System.out.println("mã id này là bao nhiêu nhỉ" + getid);
+	}
+
+	private double khachdua;
+	private double tienthoi;
+
+	public void banhangSoTien() {
+		displayThanhtien();
+		if (banhang_sotien.getText().isEmpty() || thanhTien == 0) {
+			alert = new Alert(AlertType.ERROR);
+			alert.setTitle("thông báo");
+			alert.setHeaderText(null);
+			alert.setContentText("Không hợp lệ");
+			alert.showAndWait();
+		} else {
+			khachdua = Double.parseDouble(banhang_sotien.getText());
+			if (khachdua < thanhTien) {
+				banhang_sotien.setText("");
+			} else {
+				tienthoi = (khachdua - thanhTien);
+				banhang_tienthoi.setText(tienthoi + "VND");
+			}
+		}
+	}
+
+	public void banhangThanhToanbtn() {
+
+		if (thanhTien == 0) {
+			alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Thông báo lỗi");
+			alert.setHeaderText(null);
+			alert.setContentText("Chọn sản phẩm");
+			alert.showAndWait();
+		} else {
+			displayThanhtien();
+			String sql = "INSERT INTO hoadon (maDon, tongTien, ngay, nguoiBan) " + "VALUES(?,?,?,?)";
+
+			connect = database.connectDb();
+
+			try {
+
+				if (khachdua == 0) {
+					alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Thông báo Lỗi");
+					alert.setHeaderText(null);
+					alert.setContentText("Chưa nhập số tiền mà khách đưa!!");
+					alert.showAndWait();
+				} else {
+					alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Thông báo");
+					alert.setHeaderText(null);
+					alert.setContentText("Xác nhận thanh toán");
+					Optional<ButtonType> option = alert.showAndWait();
+
+					if (option.get().equals(ButtonType.OK)) {
+						customerID();
+						displayThanhtien();
+						prepared = connect.prepareStatement(sql);
+						prepared.setString(1, String.valueOf(cID));
+						prepared.setString(2, String.valueOf(thanhTien));
+
+						Date date =new Date();
+						java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+						prepared.setString(3, String.valueOf(sqlDate));
+						prepared.setString(4, getData.username);
+
+						prepared.executeUpdate();
+
+						alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Thông báo");
+						alert.setHeaderText(null);
+						alert.setContentText("Thanh toán thành công.");
+						alert.showAndWait();
+
+						ShowOrderData();
+
+						banhangResart();
+
+					}
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	public void banhangBienlai() {
+	}
+
+	public void banhangResart() {
+		thanhTien = 0;
+		khachdua = 0;
+		tienthoi = 0;
+		banhang_tongtien.setText("");
+		banhang_tienthoi.setText("");
+		banhang_sotien.setText("");
+	}
+
+	public void banhangXoabtn() {
+		if (getid == 0) {
+			alert = new Alert(AlertType.ERROR);
+			alert.setTitle("thông báo");
+			alert.setHeaderText(null);
+			alert.setContentText("vui lòng chọn món mà bạn cần xóa");
+			alert.showAndWait();
+		} else {
+			String sql = "DELETE FROM chitietbanhang WHERE id = " + getid;
+			connect = database.connectDb();
+			try {
+				alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("xác nhận");
+				alert.setHeaderText(null);
+				alert.setContentText("bạn chắc chắn muốn xóa");
+				Optional<ButtonType> option = alert.showAndWait();
+
+				if (option.get().equals(ButtonType.OK)) {
+					prepared = connect.prepareStatement(sql);
+					prepared.executeUpdate();
+				}
+
+				ShowOrderData();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+	private int cID;
+
+	public void customerID() {
+
+		String sql = "SELECT MAX(maDon) FROM chitietbanhang";
+		connect = database.connectDb();
+
+		try {
+			prepared = connect.prepareStatement(sql);
+			result = prepared.executeQuery();
+
+			if (result.next()) {
+				cID = result.getInt(1);
+			}
+
+			String checkCID = "SELECT MAX(maDon) FROM hoadon";
+			prepared = connect.prepareStatement(checkCID);
+			result = prepared.executeQuery();
+			int checkID = 0;
+			if (result.next()) {
+				checkID = result.getInt(1);
+			}
+
+			if (cID == 0) {
+				cID += 1;
+			} else if (cID == checkID) {
+				cID += 1;
+			}
+
+			getData.cID = cID;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private ObservableList<dataSanpham> cardList = FXCollections.observableArrayList();
 
 	public ObservableList<dataSanpham> menuGetData() {
@@ -266,15 +665,15 @@ public class dashboardController implements Initializable {
 //	            			, result.getDate("ngayNhap")
 //	            			, result.getString("image"));
 				dataSp = new dataSanpham(result.getInt("id"), result.getString("maSanPham"),
-						result.getString("tenSanpham"), result.getDouble("gia"), result.getString("image"));
+						result.getString("tenSanpham"), result.getInt("soLuong"), result.getDouble("gia"),
+						result.getString("image"), result.getDate("ngaynhap"));
 				listData.add(dataSp);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			// TODO: handle exception
 		}
 
-		return cardList;
+		return listData;
 	}
 
 	public void menuDisplayCard() {
@@ -299,11 +698,11 @@ public class dashboardController implements Initializable {
 				cardSanphamController cardC = load.getController();
 				cardC.setData(cardList.get(q));
 
-				if (column == 3) {
+				if (column == 2) {
 					column = 0;
 					row += 1;
 				}
-
+//
 				banhang_girdPane.add(pane, column++, row);
 
 				GridPane.setMargin(pane, new Insets(10));
@@ -340,13 +739,8 @@ public class dashboardController implements Initializable {
 		} else {
 			String path = getData.path;
 			path = path.replace("\\", "\\\\");
-			// ngay hien tai// Lấy ngày tháng hiện tại
-			Calendar calendar = Calendar.getInstance();
-			java.util.Date utilDate = calendar.getTime();
-
-			// Chuyển đổi thành java.sql.Date
-			Date sqlDate = new Date(utilDate.getTime());
-
+			Date date = new Date();
+			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 			String sql = "UPDATE sanpham SET tenSanPham = '" + themsp_tensp.getText() + "'," + " loaiSanPham = '"
 					+ themsp_loaisp.getSelectionModel().getSelectedItem() + "'," + " nhaCungCap = '"
 					+ themsp_ncc.getSelectionModel().getSelectedItem() + "', soLuong = '" + themsp_soluong.getText()
@@ -459,12 +853,8 @@ public class dashboardController implements Initializable {
 					prepared.setString(6, themsp_gia.getText());
 					prepared.setString(7, themsp_donvi.getText());
 
-					// ngay hien tai// Lấy ngày tháng hiện tại
-					Calendar calendar = Calendar.getInstance();
-					java.util.Date utilDate = calendar.getTime();
-
-					// Chuyển đổi thành java.sql.Date
-					Date sqlDate = new Date(utilDate.getTime());
+					Date date = new Date();
+					java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
 					// Gán cho tham số của câu lệnh SQL
 					prepared.setDate(8, sqlDate);
@@ -829,6 +1219,13 @@ public class dashboardController implements Initializable {
 			banhang_btn.setStyle("-fx-brackground-color: transparent");
 			ncc_btn.setStyle("-fx-brackground-color: transparent");
 			lichsuban_btn.setStyle("-fx-brackground-color: transparent");
+
+			trangchuSanphamDaban();
+			trangchuThunhapTrongngay();
+			trangchuBDThunhap();
+			trangchuBDDonhang();
+						
+
 		} else if (event.getSource() == sanpham_btn) {
 			sanpham_form.setVisible(true);
 			trangchu_form.setVisible(false);
@@ -842,6 +1239,9 @@ public class dashboardController implements Initializable {
 			lichsuban_btn.setStyle("-fx-brackground-color: transparent");
 			ncc_btn.setStyle("-fx-brackground-color: transparent");
 
+			themSPListNCC();
+			dataSPShow();
+			ShowOrderData();
 		} else if (event.getSource() == banhang_btn) {
 			banhang_form.setVisible(true);
 			trangchu_form.setVisible(false);
@@ -854,8 +1254,11 @@ public class dashboardController implements Initializable {
 			sanpham_btn.setStyle("-fx-brackground-color: transparent");
 			ncc_btn.setStyle("-fx-brackground-color: transparent");
 			lichsuban_btn.setStyle("-fx-brackground-color: transparent");
+			ShowOrderData();
 
 			menuDisplayCard();
+
+			Thanhtien();
 
 		} else if (event.getSource() == ncc_btn) {
 			ncc_form.setVisible(true);
@@ -881,6 +1284,9 @@ public class dashboardController implements Initializable {
 			sanpham_btn.setStyle("-fx-brackground-color: transparent");
 			banhang_btn.setStyle("-fx-brackground-color: transparent");
 			ncc_btn.setStyle("-fx-brackground-color: transparent");
+			
+
+			LichSuBanShowData();
 
 		}
 	}
@@ -961,7 +1367,12 @@ public class dashboardController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
+		
+		trangchuSanphamDaban();
+		trangchuThunhapTrongngay();
+		trangchuBDThunhap();
+		trangchuBDDonhang();
+		
 		displayusername();
 		defaultNav();
 
@@ -970,8 +1381,8 @@ public class dashboardController implements Initializable {
 		dataSPShow();
 		themSPListNCC();
 		themSPListLoaiSP();
-
 		menuDisplayCard();
+		LichSuBanShowData();
 	}
 
 }

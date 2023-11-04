@@ -28,14 +28,15 @@ public class dataSanpham {
 		this.image = image;
 	}
 	
-	public dataSanpham(Integer id,String maSanPham,String tenSanPham, Double gia, String image) {
+	public dataSanpham(Integer id,String maSanPham,String tenSanPham, Integer soLuong, Double gia, String image, Date ngay) {
 		this.id = id;
 		this.maSanPham = maSanPham;
 		this.tenSanPham = tenSanPham;
+		this.soLuong = soLuong;
 		this.gia = gia;
 		this.image = image;
+		this.ngayNhap = ngay;
 	}
-
 	public Integer getId() {
 		return id;
 	}
