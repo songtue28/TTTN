@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -32,6 +35,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -50,16 +54,18 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class dashboardController implements Initializable {
-	
+
 	@FXML
-    private TextField sanpham_timkiem;
-	
+	private DatePicker lichsuban_timkiemngay;
 	@FXML
-    private TextField ncc_timkiem;
-	
+	private TextField sanpham_timkiem;
+
 	@FXML
-    private TextField lichsuban_timkiem;
-	
+	private TextField ncc_timkiem;
+
+	@FXML
+	private TextField lichsuban_timkiem;
+
 	@FXML
 	private BarChart<?, ?> trangchu_BDDonhang;
 
@@ -71,7 +77,7 @@ public class dashboardController implements Initializable {
 
 	@FXML
 	private Label trangchu_thunhaphomnay;
-	
+
 	@FXML
 	private TableColumn<dataLichSuBan, String> lichsuban_cot_madonhang;
 
@@ -280,113 +286,132 @@ public class dashboardController implements Initializable {
 	private Statement statement;
 	private PreparedStatement prepared;
 	private ResultSet result;
-	
-    public void lichsubanTimkiem() {
 
-	FilteredList<dataLichSuBan> filter = new FilteredList<>(LichSuBAnListData, e -> true);
+	public void lichsubanTimkiemngay() {
+		FilteredList<dataLichSuBan> filter = new FilteredList<>(LichSuBAnListData, e -> true);
+		LocalDate selectedDate = lichsuban_timkiemngay.getValue();
+		filter.predicateProperty().bind(Bindings.createObjectBinding(() -> {
+			// Logic để xác định điều kiện lọc dựa trên selectedDate
+			return item -> {
+			    if (selectedDate != null) {
+			        java.sql.Date sqlDate = (java.sql.Date) item.getNgay(); // Lấy java.sql.Date từ item
 
+			        // Chuyển đổi java.sql.Date sang java.time.LocalDate
+			        LocalDate localDate = sqlDate.toLocalDate();
 
-	lichsuban_timkiem.textProperty().addListener((Observable, oldValue, newValue) -> {
+			        System.out.println(selectedDate);
+			        return localDate.isEqual(selectedDate);
+			    } else {
+			        return true;
+			    }
+			};
+		}, 
+		lichsuban_timkiemngay.valueProperty()));
+		lichsuban_tableView.setItems(filter);
+	}
 
-            filter.setPredicate(xacdinhkytu ->{
+	public void lichsubanTimkiem() {
 
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
+		FilteredList<dataLichSuBan> filter = new FilteredList<>(LichSuBAnListData, e -> true);
 
-                String searchKey = newValue.toLowerCase();
+		lichsuban_timkiem.textProperty().addListener((Observable, oldValue, newValue) -> {
 
-                if (xacdinhkytu.getMaDon().toString().contains(searchKey)) {
-                    return true;
-                } else if (xacdinhkytu.getNguoiBan().toLowerCase().contains(searchKey)) {
-                    return true;
-                }  else {
-                    return false;
-                }
-            });
-        });
+			filter.setPredicate(xacdinhkytu -> {
 
-        SortedList<dataLichSuBan> sortList = new SortedList<>(filter);
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String searchKey = newValue.toLowerCase();
 
-        sortList.comparatorProperty().bind(lichsuban_tableView.comparatorProperty());
-        lichsuban_tableView.setItems(sortList);
-    }
-	
-    public void sanphamTimkiem() {
+				if (xacdinhkytu.getMaDon().toString().contains(searchKey)) {
+					return true;
+				} else if (xacdinhkytu.getNguoiBan().toLowerCase().contains(searchKey)) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+		});
 
-	FilteredList<dataSanpham> filter = new FilteredList<>(listSP, e -> true);
+		SortedList<dataLichSuBan> sortList = new SortedList<>(filter);
 
+		sortList.comparatorProperty().bind(lichsuban_tableView.comparatorProperty());
+		lichsuban_tableView.setItems(sortList);
+	}
 
-        sanpham_timkiem.textProperty().addListener((Observable, oldValue, newValue) -> {
+	public void sanphamTimkiem() {
 
-            filter.setPredicate(xacdinhkytu ->{
+		FilteredList<dataSanpham> filter = new FilteredList<>(listSP, e -> true);
 
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
+		sanpham_timkiem.textProperty().addListener((Observable, oldValue, newValue) -> {
 
-                String searchKey = newValue.toLowerCase();
+			filter.setPredicate(xacdinhkytu -> {
 
-                if (xacdinhkytu.getMaSanPham().toString().contains(searchKey)) {
-                    return true;
-                } else if (xacdinhkytu.getTenSanPham().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else if (xacdinhkytu.getLoaiSanPham().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else if (xacdinhkytu.getNhaCungCap().toLowerCase().contains(searchKey)) {
-                    return true;
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+
+				String searchKey = newValue.toLowerCase();
+
+				if (xacdinhkytu.getMaSanPham().toString().contains(searchKey)) {
+					return true;
+				} else if (xacdinhkytu.getTenSanPham().toLowerCase().contains(searchKey)) {
+					return true;
+				} else if (xacdinhkytu.getLoaiSanPham().toLowerCase().contains(searchKey)) {
+					return true;
+				} else if (xacdinhkytu.getNhaCungCap().toLowerCase().contains(searchKey)) {
+					return true;
 //                } else if (xacdinhkytu.getGia().toString().toLowerCase().contains(searchKey)) {
 //                    return true;
 //                } else if (xacdinhkytu.getDonViTinh().toString().toLowerCase().contains(searchKey)) {
 //                    return true;
 //                } else if (xacdinhkytu.getNgayNhap().toString().contains(searchKey)) {
 //                    return true;
-                } else {
-                    return false;
-                }
-            });
-        });
+				} else {
+					return false;
+				}
+			});
+		});
 
-        SortedList<dataSanpham> sortList = new SortedList<>(filter);
+		SortedList<dataSanpham> sortList = new SortedList<>(filter);
 
-        sortList.comparatorProperty().bind(themsp_tableView.comparatorProperty());
-        themsp_tableView.setItems(sortList);
-    }
-  
-    public void NCCTimkiem() {
+		sortList.comparatorProperty().bind(themsp_tableView.comparatorProperty());
+		themsp_tableView.setItems(sortList);
+	}
 
-	FilteredList<dataNCC> filter = new FilteredList<>(listNCC, e -> true);
+	public void NCCTimkiem() {
 
+		FilteredList<dataNCC> filter = new FilteredList<>(listNCC, e -> true);
 
-        ncc_timkiem.textProperty().addListener((Observable, oldValue, newValue) -> {
+		ncc_timkiem.textProperty().addListener((Observable, oldValue, newValue) -> {
 
-            filter.setPredicate(xacdinhkytu ->{
+			filter.setPredicate(xacdinhkytu -> {
 
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
 
-                String searchKey = newValue.toLowerCase();
+				String searchKey = newValue.toLowerCase();
 
-                if (xacdinhkytu.getMaNCC().toString().contains(searchKey)) {
-                    return true;
-                } else if (xacdinhkytu.getTenNCC().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else if (xacdinhkytu.getSdt().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else if (xacdinhkytu.getDiaChi().toLowerCase().contains(searchKey)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-        });
+				if (xacdinhkytu.getMaNCC().toString().contains(searchKey)) {
+					return true;
+				} else if (xacdinhkytu.getTenNCC().toLowerCase().contains(searchKey)) {
+					return true;
+				} else if (xacdinhkytu.getSdt().toLowerCase().contains(searchKey)) {
+					return true;
+				} else if (xacdinhkytu.getDiaChi().toLowerCase().contains(searchKey)) {
+					return true;
+				} else {
+					return false;
+				}
+			});
+		});
 
-        SortedList<dataNCC> sortList = new SortedList<>(filter);
+		SortedList<dataNCC> sortList = new SortedList<>(filter);
 
-        sortList.comparatorProperty().bind(themncc_tableView.comparatorProperty());
-        themncc_tableView.setItems(sortList);
-    }
+		sortList.comparatorProperty().bind(themncc_tableView.comparatorProperty());
+		themncc_tableView.setItems(sortList);
+	}
 
 	public void trangchuThunhapTrongngay() {
 		Date date = new Date();
@@ -478,7 +503,6 @@ public class dashboardController implements Initializable {
 		}
 	}
 
-	
 	public ObservableList<dataLichSuBan> LichSuBanDataList() {
 
 		ObservableList<dataLichSuBan> listData = FXCollections.observableArrayList();
@@ -517,7 +541,6 @@ public class dashboardController implements Initializable {
 		lichsuban_tableView.setItems(LichSuBAnListData);
 	}
 
-	
 	private double thanhTien;
 
 	public void displayThanhtien() {
@@ -651,7 +674,7 @@ public class dashboardController implements Initializable {
 						prepared.setString(1, String.valueOf(cID));
 						prepared.setString(2, String.valueOf(thanhTien));
 
-						Date date =new Date();
+						Date date = new Date();
 						java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
 						prepared.setString(3, String.valueOf(sqlDate));
@@ -1342,7 +1365,6 @@ public class dashboardController implements Initializable {
 			trangchuThunhapTrongngay();
 			trangchuBDThunhap();
 			trangchuBDDonhang();
-						
 
 		} else if (event.getSource() == sanpham_btn) {
 			sanpham_form.setVisible(true);
@@ -1391,8 +1413,8 @@ public class dashboardController implements Initializable {
 			sanpham_btn.setStyle("-fx-brackground-color: transparent");
 			banhang_btn.setStyle("-fx-brackground-color: transparent");
 			lichsuban_btn.setStyle("-fx-brackground-color: transparent");
-			
-			 NCCTimkiem();
+
+			NCCTimkiem();
 		} else if (event.getSource() == lichsuban_btn) {
 			lichsuban_form.setVisible(true);
 			trangchu_form.setVisible(false);
@@ -1405,10 +1427,10 @@ public class dashboardController implements Initializable {
 			sanpham_btn.setStyle("-fx-brackground-color: transparent");
 			banhang_btn.setStyle("-fx-brackground-color: transparent");
 			ncc_btn.setStyle("-fx-brackground-color: transparent");
-			
 
 			LichSuBanShowData();
 			lichsubanTimkiem();
+			lichsubanTimkiemngay();
 
 		}
 	}
@@ -1489,12 +1511,12 @@ public class dashboardController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 		trangchuSanphamDaban();
 		trangchuThunhapTrongngay();
 		trangchuBDThunhap();
 		trangchuBDDonhang();
-		
+
 		displayusername();
 		defaultNav();
 

@@ -8,6 +8,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -405,8 +406,8 @@
                            <children>
                               <AnchorPane layoutX="28.0" layoutY="29.0" prefHeight="516.0" prefWidth="835.0" stylesheets="@dashboardDesign.css">
                                  <children>
-                                    <TextField fx:id="lichsuban_timkiem" layoutX="57.0" layoutY="28.0" onAction="#lichsubanTimkiem" prefHeight="28.0" prefWidth="182.0" promptText="Tìm kiếm" styleClass="search" stylesheets="@dashboardDesign.css" />
-                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="69.0" layoutY="45.0" />
+                                    <TextField fx:id="lichsuban_timkiem" layoutX="156.0" layoutY="28.0" onAction="#lichsubanTimkiem" prefHeight="28.0" prefWidth="182.0" promptText="Tìm kiếm" styleClass="search" stylesheets="@dashboardDesign.css" />
+                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="165.0" layoutY="46.0" />
                                     <TableView fx:id="lichsuban_tableView" layoutX="43.0" layoutY="92.0" prefHeight="385.0" prefWidth="758.0">
                                       <columns>
                                         <TableColumn fx:id="lichsuban_cot_madonhang" prefWidth="119.0" text="Mã Đơn Hàng" />
@@ -418,6 +419,17 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
+                                    <DatePicker fx:id="lichsuban_timkiemngay" layoutX="486.0" layoutY="30.0" onAction="#lichsubanTimkiemngay" />
+                                    <Label layoutX="42.0" layoutY="32.0" text="Tìm theo mã:">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="373.0" layoutY="31.0" text="Tìm theo ngày:">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                                  <styleClass>
                                     <String fx:value="white-bg" />
