@@ -288,46 +288,40 @@ public class dashboardController implements Initializable {
 	private Statement statement;
 	private PreparedStatement prepared;
 	private ResultSet result;
-	
-	
-	
+
 	public void changePass() throws IOException {
 		FXMLLoader load = new FXMLLoader();
 		load.setLocation(getClass().getResource("changepass.fxml"));
-		AnchorPane pane = load.load(); 
+		AnchorPane pane = load.load();
 		Stage stage = new Stage();
-	    Scene scene = new Scene(pane);
+		Scene scene = new Scene(pane);
 
-	    // Set the scene for the stage
-	    stage.setScene(scene);
-	    stage.initStyle(StageStyle.TRANSPARENT);
-	    // Show the stage
-	    stage.show();
+		// Set the scene for the stage
+		stage.setScene(scene);
+		stage.initStyle(StageStyle.TRANSPARENT);
+		// Show the stage
+		stage.show();
 	}
-	
-	
-	
-	
+
 	public void lichsubanTimkiemngay() {
 		FilteredList<dataLichSuBan> filter = new FilteredList<>(LichSuBAnListData, e -> true);
 		LocalDate selectedDate = lichsuban_timkiemngay.getValue();
 		filter.predicateProperty().bind(Bindings.createObjectBinding(() -> {
 			// Logic để xác định điều kiện lọc dựa trên selectedDate
 			return item -> {
-			    if (selectedDate != null) {
-			        java.sql.Date sqlDate = (java.sql.Date) item.getNgay(); // Lấy java.sql.Date từ item
+				if (selectedDate != null) {
+					java.sql.Date sqlDate = (java.sql.Date) item.getNgay(); // Lấy java.sql.Date từ item
 
-			        // Chuyển đổi java.sql.Date sang java.time.LocalDate
-			        LocalDate localDate = sqlDate.toLocalDate();
+					// Chuyển đổi java.sql.Date sang java.time.LocalDate
+					LocalDate localDate = sqlDate.toLocalDate();
 
-			        System.out.println(selectedDate);
-			        return localDate.isEqual(selectedDate);
-			    } else {
-			        return true;
-			    }
+					System.out.println(selectedDate);
+					return localDate.isEqual(selectedDate);
+				} else {
+					return true;
+				}
 			};
-		}, 
-		lichsuban_timkiemngay.valueProperty()));
+		}, lichsuban_timkiemngay.valueProperty()));
 		lichsuban_tableView.setItems(filter);
 	}
 
@@ -454,6 +448,7 @@ public class dashboardController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+
 	public void trangchuThunhapTrongngay() {
 		Date date = new Date();
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -585,8 +580,8 @@ public class dashboardController implements Initializable {
 	private double thanhTien;
 
 	public void displayThanhtien() {
-//		customerID();
-		String tong = "SELECT sum(gia) as tinhtong from chitietbanhang ";
+		customerID();
+		String tong = "SELECT sum(gia) as tinhtong from chitietbanhang WHERE maDon = " + cID;
 
 		connect = database.connectDb();
 		try {
@@ -611,18 +606,23 @@ public class dashboardController implements Initializable {
 		customerID();
 		ObservableList<dataSanpham> listdata = FXCollections.observableArrayList();
 
-		String sql = " SELECT * FROM chitietbanhang where maDon = " + cID;
+		String sql = " SELECT * FROM chitietbanhang  WHERE madon = " + cID;
 
 		connect = database.connectDb();
 		try {
 			prepared = connect.prepareStatement(sql);
 			result = prepared.executeQuery();
+			
 			dataSanpham dataSp;
 
 			while (result.next()) {
-				dataSp = new dataSanpham(result.getInt("id"), result.getString("masanpham"),
-						result.getString("tenSanPham"), result.getInt("soLuong"), result.getDouble("gia"),
-						result.getString("image"), result.getDate("ngay"));
+				dataSp = new dataSanpham(result.getInt("id"), 
+						result.getString("masanpham"),
+						result.getString("tenSanPham"), 
+						result.getInt("soLuong"), 
+						result.getDouble("gia"),
+						result.getString("image"), 
+						result.getDate("ngay"));
 				listdata.add(dataSp);
 			}
 
@@ -635,6 +635,7 @@ public class dashboardController implements Initializable {
 	private ObservableList<dataSanpham> orderlistData;
 
 	public void ShowOrderData() {
+		
 		orderlistData = displayOrder();
 
 		banhang_cot_tensp.setCellValueFactory(new PropertyValueFactory<>("tenSanPham"));
@@ -709,7 +710,9 @@ public class dashboardController implements Initializable {
 					Optional<ButtonType> option = alert.showAndWait();
 
 					if (option.get().equals(ButtonType.OK)) {
+						System.out.println(cID);
 						customerID();
+						System.out.println(cID);
 						displayThanhtien();
 						prepared = connect.prepareStatement(sql);
 						prepared.setString(1, String.valueOf(cID));
@@ -728,12 +731,17 @@ public class dashboardController implements Initializable {
 						alert.setHeaderText(null);
 						alert.setContentText("Thanh toán thành công.");
 						alert.showAndWait();
-
+//
 						ShowOrderData();
 
-						banhangResart();
-
 					}
+					else {
+                        alert = new Alert(AlertType.WARNING);
+                        alert.setTitle("Infomation Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Cancelled.");
+                        alert.showAndWait();
+                    }
 				}
 
 			} catch (Exception e) {
@@ -789,7 +797,7 @@ public class dashboardController implements Initializable {
 
 	public void customerID() {
 
-		String sql = "SELECT MAX(maDon) FROM chitietbanhang";
+		String sql = "SELECT MAX(maDon) as maxm FROM chitietbanhang";
 		connect = database.connectDb();
 
 		try {
@@ -797,21 +805,24 @@ public class dashboardController implements Initializable {
 			result = prepared.executeQuery();
 
 			if (result.next()) {
-				cID = result.getInt(1);
+				cID = result.getInt("maxm");
 			}
 
-			String checkCID = "SELECT MAX(maDon) FROM hoadon";
+			String checkCID = "SELECT MAX(maDon) as maxm FROM hoadon";
 			prepared = connect.prepareStatement(checkCID);
 			result = prepared.executeQuery();
 			int checkID = 0;
 			if (result.next()) {
-				checkID = result.getInt(1);
+				checkID = result.getInt("maxm");
 			}
 
 			if (cID == 0) {
 				cID += 1;
-			} else if (cID == checkID) {
+				System.out.println("truognwf hợp mã đơn lớp nhất =0");
+			} else  if (cID == checkID) {
 				cID += 1;
+				System.out.println("truognwf hợp mã đơn lớp nhất = mã đơn hoa dơn");
+
 			}
 
 			getData.cID = cID;
@@ -1437,11 +1448,13 @@ public class dashboardController implements Initializable {
 			sanpham_btn.setStyle("-fx-brackground-color: transparent");
 			ncc_btn.setStyle("-fx-brackground-color: transparent");
 			lichsuban_btn.setStyle("-fx-brackground-color: transparent");
-			ShowOrderData();
+			
 
 			menuDisplayCard();
-
 			Thanhtien();
+			ShowOrderData();
+
+			
 
 		} else if (event.getSource() == ncc_btn) {
 			ncc_form.setVisible(true);
