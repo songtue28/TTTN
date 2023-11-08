@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -919,10 +920,15 @@ public class dashboardController implements Initializable {
 	}
 
 	public void sp_SuaSPbtn() {
-		if (themsp_masp.getText().isEmpty() || themsp_tensp.getText().isEmpty()
+		System.out.println(getData.path);
+		if (themsp_masp.getText().isEmpty() 
+				|| themsp_tensp.getText().isEmpty()
 				|| themsp_loaisp.getSelectionModel().getSelectedItem() == null
-				|| themsp_ncc.getSelectionModel().getSelectedItem() == null || themsp_soluong.getText().isEmpty()
-				|| themsp_gia.getText().isEmpty() || themsp_donvi.getText().isEmpty() || getData.path == null) {
+				|| themsp_ncc.getSelectionModel().getSelectedItem() == null 
+				|| themsp_soluong.getText().isEmpty()
+				|| themsp_gia.getText().isEmpty() 
+				|| themsp_donvi.getText().isEmpty() 
+				|| getData.path == null) {
 
 			alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Thông báo");
@@ -932,13 +938,19 @@ public class dashboardController implements Initializable {
 		} else {
 			String path = getData.path;
 			path = path.replace("\\", "\\\\");
+			
 			Date date = new Date();
 			java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-			String sql = "UPDATE sanpham SET tenSanPham = '" + themsp_tensp.getText() + "'," + " loaiSanPham = '"
-					+ themsp_loaisp.getSelectionModel().getSelectedItem() + "'," + " nhaCungCap = '"
-					+ themsp_ncc.getSelectionModel().getSelectedItem() + "', soLuong = '" + themsp_soluong.getText()
-					+ "', gia = '" + themsp_gia.getText() + "', donViTinh = '" + themsp_donvi.getText()
-					+ "', ngayNhap = ' " + sqlDate + "', image = '" + path + "'" + " WHERE maSanPham = '"
+			
+			String sql = "UPDATE sanpham SET "
+					+ "tenSanPham = '" + themsp_tensp.getText() + "'," 
+					+ " loaiSanPham = '" + themsp_loaisp.getSelectionModel().getSelectedItem() + "'," 
+					+ " nhaCungCap = '" + themsp_ncc.getSelectionModel().getSelectedItem() + "', "
+					+ "soLuong = '" + themsp_soluong.getText() + "', "
+					+ "gia = '" + themsp_gia.getText() + "', "
+					+ "donViTinh = '" + themsp_donvi.getText() + "', "
+					+ "ngayNhap = ' " + sqlDate + "', "
+					+ "image = '" + path + "'" + " WHERE maSanPham = '"
 					+ themsp_masp.getText() + "'";
 			connect = database.connectDb();
 			try {
@@ -964,7 +976,6 @@ public class dashboardController implements Initializable {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				// TODO: handle exception
 			}
 		}
 	}
@@ -1130,13 +1141,19 @@ public class dashboardController implements Initializable {
 		themsp_loaisp.setPromptText(dataSanpham.getLoaiSanPham());
 		themsp_ncc.setPromptText(dataSanpham.getNhaCungCap());
 		themsp_soluong.setText(String.valueOf(dataSanpham.getSoLuong()));
-		themsp_gia.setText(String.valueOf(dataSanpham.getSoLuong()));
+		themsp_gia.setText(String.valueOf(dataSanpham.getGia()));
 		themsp_donvi.setText(dataSanpham.getDonViTinh());
 
-		getData.path = dataSanpham.getImage();
-		String path = "File:" + dataSanpham.getImage();
-		image = new Image(path, 120, 127, false, true);
-		themsp_imageView.setImage(image);
+	     getData.path = dataSanpham.getImage();
+	        
+	        String path = "File:" + dataSanpham.getImage();
+	        getData.id = dataSanpham.getId();
+	        
+	        image = new Image(path, 120, 127, false, true);
+	        themsp_imageView.setImage(image);
+	        
+	        
+	        
 	}
 
 	public void taiAnhLenBtn() {
