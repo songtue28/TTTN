@@ -34,7 +34,7 @@
                         <AnchorPane prefHeight="24.0" prefWidth="1100.0" styleClass="top-form" stylesheets="@dashboardDesign.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.599999999999909" AnchorPane.rightAnchor="0.0">
                            <children>
                               <FontAwesomeIcon glyphName="USERS" layoutX="20.0" layoutY="16.0" />
-                              <Label text="SYSTEM MANAGER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="950.0" />
+                              <Label text=" Quản lý cửa hàng" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="38.0" AnchorPane.rightAnchor="950.0" />
                               <Button fx:id="close" layoutX="1048.0" layoutY="-1.0" mnemonicParsing="false" onAction="#close" prefWidth="52.0" styleClass="close" stylesheets="@dashboardDesign.css" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="0.0">
                                  <graphic>
                                     <FontAwesomeIcon glyphName="CLOSE" />
@@ -93,7 +93,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="trangchu_form" prefHeight="570.0" prefWidth="897.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="trangchu_form" prefHeight="570.0" prefWidth="897.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane prefHeight="176.0" prefWidth="842.0" stylesheets="@dashboardDesign.css" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="14.0">
                                  <children>
@@ -289,7 +289,7 @@
                               <Separator layoutX="28.0" layoutY="296.0" prefHeight="5.0" prefWidth="852.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="banhang_form" layoutY="12.0" prefHeight="566.0" prefWidth="899.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="banhang_form" layoutY="12.0" prefHeight="566.0" prefWidth="899.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="20.0" layoutY="15.0" prefHeight="540.0" prefWidth="512.0" stylesheets="@dashboardDesign.css">
                                  <children>
@@ -322,7 +322,7 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="banhang_tongtien" layoutX="181.0" layoutY="283.0" prefHeight="21.0" prefWidth="127.0" text="0.0" AnchorPane.bottomAnchor="262.0" AnchorPane.rightAnchor="12.0">
+                                    <Label fx:id="banhang_tongtien" layoutX="181.0" layoutY="283.0" prefHeight="21.0" prefWidth="127.0" text="0.0 VND" AnchorPane.bottomAnchor="262.0" AnchorPane.rightAnchor="12.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -338,7 +338,7 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="banhang_tienthoi" layoutX="181.0" layoutY="343.0" prefHeight="21.0" prefWidth="127.0" text="0.0" AnchorPane.bottomAnchor="202.0" AnchorPane.rightAnchor="12.0">
+                                    <Label fx:id="banhang_tienthoi" layoutX="181.0" layoutY="343.0" prefHeight="21.0" prefWidth="127.0" text="0.0 VND" AnchorPane.bottomAnchor="202.0" AnchorPane.rightAnchor="12.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>

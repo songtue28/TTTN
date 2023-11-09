@@ -600,7 +600,7 @@ public class dashboardController implements Initializable {
 
 	public void Thanhtien() {
 		displayThanhtien();
-		banhang_tongtien.setText(thanhTien + "$");
+		banhang_tongtien.setText(thanhTien + "VND");
 	}
 
 	public ObservableList<dataSanpham> displayOrder() {

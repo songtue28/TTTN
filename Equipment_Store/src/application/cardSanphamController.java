@@ -73,7 +73,7 @@ public class cardSanphamController implements Initializable {
 		giasp.setText(String.valueOf(dataSp.getGia() + "VND"));
 
 		String path = "File:" + dataSp.getImage();
-		image = new Image(path, 210, 90, false, true);
+		image = new Image(path, 190, 90, false, true);
 		imageView.setImage(image);
 	}
 

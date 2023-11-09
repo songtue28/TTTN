@@ -4,13 +4,13 @@
  .left-form{
  	-fx-background-color: linear-gradient(to bottom right, #38a2d7, #561139);
  	-fx-border-color:#000 ;
- 	-fx-border-width:.4px 0px .4px .4px;/*top righr bottom left */
+ 	-fx-border-width:.7px 0px .4px .4px;/*top righr bottom left */
  		
  }
  .right-form{
  	-fx-background-color: #fff;
  	-fx-border-color:#000 ;
- 	-fx-border-width:.4px 0px .4px .4px;/*top righr bottom left */
+ 	-fx-border-width:.7px .6px 1px .6px;
  		
  }
  .textfield{
